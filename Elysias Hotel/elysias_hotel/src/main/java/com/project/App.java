@@ -42,6 +42,12 @@ public class App
 //
 //guest1.UpdateSaldo(guest1, 50000);
 //        guest1.checkcSaldo(guest1);
+        
+         // Room
+//        Room room = new Room(204);
+//        room.displayRoom(room);
+
+        
 
 
 
