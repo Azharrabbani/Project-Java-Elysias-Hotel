@@ -4,13 +4,11 @@ import java.sql.SQLException;
 
 public interface RoomList {
 
-        public void checkRoom(Room room) throws SQLException;
+        public void checkRoom();
 
-        public void bookRoom(Room room);
+        public void bookRoom();
 
-        public  void cancelBooking(Room room);
+        public  void cancelBooking();
 
-        public  void displayRoom();
-
-
+        void displayRoom(Room room);
 }
