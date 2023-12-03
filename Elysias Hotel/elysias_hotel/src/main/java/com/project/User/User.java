@@ -18,21 +18,25 @@ public class User extends DatabaseUser{
         this.Password = Password;
     }
 
+    // Login
     @Override
     public boolean Login(User user){
         return super.Login(user);
     }
 
+    // Sign Up
     @Override
     public boolean SignUp (User user){
          return super.SignUp(user);
     }
 
+    // Delete Akun
     @Override
     public void DelAccount(User user) {
         super.DelAccount(user);
     }
 
+    // Menambah Profile Buat jadi interaktif layaknya login
     @Override
     public void AddProfile(User user) {
         System.out.println("WELCOME " + user.getUserName());
@@ -61,10 +65,37 @@ public class User extends DatabaseUser{
         super.AddProfile(user);
     }
 
+    // Menampilkan Profile
     public void DisplayProfile(User user){
         super.DisplayProfile(user);
     }
 
+    // Mendapatkan nama dari database
+    public void getNama(Guest guest){
+        super.getNama(guest);
+    }
+
+    // Mendapatkan noTel dari database
+    public void getNoTel(Guest guest){
+        super.getNoTel(guest);
+    }
+
+    // Mendapatkan noTel dari database untuk dimasukkan ke method
+    public String getNoTelGuest(Guest guest){
+        return super.getNoTelGuest(guest);
+    }
+
+    // Mendapatkan Alamat dari database
+    public void getAlamat(Guest guest){
+        super.getAlamat(guest);
+    }
+
+    // Mendapatkan Kota dari database
+    public void getKota(Guest guest){
+        super.getKota(guest);
+    }
+
+    // Update Profile sama buat java fx interaktif layaknya login
     public void UpdateProfile(User user){
         System.out.println("Manage Profile");
         Scanner input = new Scanner(System.in);
@@ -91,54 +122,67 @@ public class User extends DatabaseUser{
         super.UpdateProfile(user);
     }
 
+    // Mengecek username ada atau tidak
     public void isExsist(User user){
         super.isExist(user);
     }
 
+    // getter
     public String getUserName() {
         return this.UserName;
     }
 
+    // setter
     public void setUserName(String userName) {
         this. UserName = userName;
     }
 
+    // getter
     public String getPassword() {
         return this.Password;
     }
 
+    // setter
     public void setPassword(String password) {
         this.Password = password;
     }
 
+    // getter
     public String getNama() {
         return this.Nama;
     }
 
+    // setter
     public void setNama(String nama) {
         this.Nama = nama;
     }
 
+    // getter
     public String getNoTel() {
         return this.NoTel;
     }
 
+    // setter
     public void setNoTel(String noTel) {
         this.NoTel = noTel;
     }
 
+    // getter
     public String getAlamat() {
         return this.Alamat;
     }
 
+    // setter
     public void setAlamat(String alamat) {
         this.Alamat = alamat;
     }
 
+    // getter
     public String getKota() {
         return this.Kota;
     }
 
+    // setter
     public void setKota(String kota) {
         this.Kota = kota;
     }
