@@ -1,16 +1,17 @@
 package com.project.Database;
 
+import com.project.User.Guest;
 import com.project.User.User;
 import com.project.User.UserService;
 import util.ConnectionUtil;
 
-import java.net.ConnectException;
 import java.sql.*;
 
 public abstract class DatabaseUser implements UserService {
 
     private User user;
 
+    // Method Login
     public boolean Login(User user){
         try (Connection connection = ConnectionUtil.getDataSource().getConnection()){
             String sql = "SELECT * FROM UserGuest WHERE Username = ? AND Password = ?";
@@ -29,6 +30,7 @@ public abstract class DatabaseUser implements UserService {
 
 
 
+    // Method SignUp (Buat Akun)
     @Override
     public boolean SignUp(User user) {
         try (Connection connection = ConnectionUtil.getDataSource().getConnection()){
@@ -38,7 +40,6 @@ public abstract class DatabaseUser implements UserService {
                 statement.setString(2, user.getPassword());
 
                 int rowsAffected = statement.executeUpdate();
-
                 return rowsAffected > 0;
             }
 
@@ -48,6 +49,7 @@ public abstract class DatabaseUser implements UserService {
         }
     }
 
+    // Method Delete Akun
     @Override
     public void DelAccount(User user) {
         try (Connection connection = ConnectionUtil.getDataSource().getConnection();){
@@ -64,6 +66,7 @@ public abstract class DatabaseUser implements UserService {
         }
     }
 
+    // Method Menambah Profile
     @Override
     public void AddProfile(User user) {
         try (Connection connection = ConnectionUtil.getDataSource().getConnection()) {
@@ -83,6 +86,7 @@ public abstract class DatabaseUser implements UserService {
         }
     }
 
+    // Method Menampilkan Profile
     public void DisplayProfile(User user){
         try (Connection connection = ConnectionUtil.getDataSource().getConnection()){
             String sql = "SELECT * FROM Guest WHERE UserName = ?";
@@ -104,6 +108,75 @@ public abstract class DatabaseUser implements UserService {
         }
     }
 
+    // Method Mendapatkan record nama dari database
+    public void getNama(Guest guest){
+        try (Connection connection = ConnectionUtil.getDataSource().getConnection()){
+            String sql = "SELECT * FROM Guest WHERE UserName = ?";
+            try (PreparedStatement statement = connection.prepareStatement(sql)){
+                statement.setString(1, guest.getUserName());
+                try (ResultSet resultSet = statement.executeQuery()){
+                    if (resultSet.next()){
+                        System.out.println(resultSet.getString("Nama"));
+                    }
+                }
+            }
+        } catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    // Method Mendapatkan record noTel dari database
+    public void getNoTel(Guest guest) { // Untuk ditampilkan
+        try (Connection connection = ConnectionUtil.getDataSource().getConnection()){
+            String sql = "SELECT * FROM Guest WHERE UserName = ?";
+            try (PreparedStatement statement = connection.prepareStatement(sql)){
+                statement.setString(1, guest.getUserName());
+                try (ResultSet resultSet = statement.executeQuery()){
+                    if(resultSet.next()){
+                        System.out.println(resultSet.getString("NoTel"));
+                    }
+                }
+            }
+        }catch (SQLException e){
+            throw new RuntimeException("UserName Not Found !!!");
+        }
+    }
+
+    // Method Mendapatkan record Alamat dari database
+    public void getAlamat(Guest guest) { // Untuk ditampilkan
+        try (Connection connection = ConnectionUtil.getDataSource().getConnection()){
+            String sql = "SELECT * FROM Guest WHERE UserName = ?";
+            try (PreparedStatement statement = connection.prepareStatement(sql)){
+                statement.setString(1, guest.getUserName());
+                try (ResultSet resultSet = statement.executeQuery()){
+                    if(resultSet.next()){
+                        System.out.println(resultSet.getString("Alamat"));
+                    }
+                }
+            }
+        }catch (SQLException e){
+            throw new RuntimeException("UserName Not Found !!!");
+        }
+    }
+
+    // Method Mendapatkan record Kota dari database
+    public void getKota(Guest guest) { // Untuk ditampilkan
+        try (Connection connection = ConnectionUtil.getDataSource().getConnection()){
+            String sql = "SELECT * FROM Guest WHERE UserName = ?";
+            try (PreparedStatement statement = connection.prepareStatement(sql)){
+                statement.setString(1, guest.getUserName());
+                try (ResultSet resultSet = statement.executeQuery()){
+                    if(resultSet.next()){
+                        System.out.println(resultSet.getString("Kota"));
+                    }
+                }
+            }
+        }catch (SQLException e){
+            throw new RuntimeException("UserName Not Found !!!");
+        }
+    }
+
+    // Method Update Profile
     public void UpdateProfile(User user){
         try (Connection connection = ConnectionUtil.getDataSource().getConnection()){
             String sql = "UPDATE Guest set Nama = ?, NoTel = ?, Alamat = ?, Kota = ? WHERE UserName = ? ";
@@ -123,7 +196,7 @@ public abstract class DatabaseUser implements UserService {
     }
 
 
-
+    // Method mengecek apakah username ada di database
     public boolean isExist(User user){
         try (Connection connection = ConnectionUtil.getDataSource().getConnection()) {
             String sql = "SELECT * FROM Guest WHERE UserName = ?";
@@ -144,5 +217,24 @@ public abstract class DatabaseUser implements UserService {
             throw new RuntimeException(e);
         }
 
+    }
+
+    // Method mendapatkan NoTek untuk digunakan di method lain (bukan untuk ditampilkan)
+    public String getNoTelGuest(Guest guest) { // Untuk ditampilkan
+        try (Connection connection = ConnectionUtil.getDataSource().getConnection()){
+            String sql = "SELECT * FROM Guest WHERE UserName = ?";
+            try (PreparedStatement statement = connection.prepareStatement(sql)){
+                statement.setString(1, guest.getUserName());
+                try (ResultSet resultSet = statement.executeQuery()){
+                    if (resultSet.next()) {
+                        return resultSet.getString("NoTel");
+                    } else {
+                        throw new RuntimeException("UserName Not Found !!!");
+                    }
+                }
+            }
+        }catch (SQLException e){
+            throw new RuntimeException("UserName Not Found !!!");
+        }
     }
 }
