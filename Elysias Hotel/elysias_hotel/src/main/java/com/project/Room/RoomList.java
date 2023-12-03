@@ -1,12 +1,12 @@
 package com.project.Room;
 
-import java.sql.SQLException;
+import com.project.User.Guest;
 
 public interface RoomList {
 
-        public void checkRoom();
+        public boolean checkIfAvailable(Room room);
 
-        public void bookRoom();
+        public void bookRoom(Guest guest, Room room);
 
         public  void cancelBooking();
 
