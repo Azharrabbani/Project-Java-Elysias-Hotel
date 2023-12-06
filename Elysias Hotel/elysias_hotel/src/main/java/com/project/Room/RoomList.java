@@ -6,9 +6,9 @@ public interface RoomList {
 
         public boolean checkIfAvailable(Room room);
 
-        public void bookRoom(Guest guest, Room room);
+        public boolean bookRoom(Guest guest, Room room);
 
-        public  void cancelBooking();
+        public  void cancelBooking(Guest guest, Room room);
 
-        void displayRoom(Room room);
+        public void displayRoom(Room room);
 }
