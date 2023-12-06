@@ -1,6 +1,7 @@
 package com.project.wallet;
 
 import com.project.Database.DatabaseWallet;
+import com.project.Room.Room;
 import com.project.User.Guest;
 
 public class Payment extends DatabaseWallet {
@@ -21,6 +22,10 @@ public class Payment extends DatabaseWallet {
         return super.getSaldo(guest);
     }
 
+    public double getSaldoSaatIni(Guest guest){
+        return super.getSaldoSaatIni(guest);
+    }
+
     public double checkSaldo(Guest guest){
         return super.checkSaldo(guest);
     }
@@ -28,4 +33,13 @@ public class Payment extends DatabaseWallet {
     public void UpdateSaldo(Guest guest, double saldoTambah){
         super.UpdateSaldo(guest, saldoTambah);
     }
+
+    public void updateSaldoPayment(Guest guest, double price){
+        super.UpdateSaldoPayment(guest, price);
+    }
+
+    public void Return(Guest guest,double price){
+        super.Return(guest, price);
+    }
+
 }
