@@ -13,7 +13,7 @@ import java.sql.SQLException;
 public abstract class DatabaseWallet implements Wallet {
     Guest guest;
 
-    // Method
+    // Menambah Wallet User
     @Override
     public boolean addWallet(Guest guest) {
         try (Connection connection = ConnectionUtil.getDataSource().getConnection()){
@@ -28,6 +28,8 @@ public abstract class DatabaseWallet implements Wallet {
         }
     }
 
+
+    // Menambah Saldo Di Wallet
     public boolean addSaldo(Guest guest, double jumlah) {
         try (Connection connection = ConnectionUtil.getDataSource().getConnection()){
             double saldoSaatIni = getSaldo(guest);
@@ -39,6 +41,8 @@ public abstract class DatabaseWallet implements Wallet {
         }
     }
 
+
+    // Mengambil Saldo dari database
     @Override
     public double getSaldo(Guest guest) {
         try (Connection connection = ConnectionUtil.getDataSource().getConnection()){
@@ -59,6 +63,8 @@ public abstract class DatabaseWallet implements Wallet {
         return 0;
     }
 
+
+    // Method Mengambil saldo untuk diambil dan digunakan di Method lain
     public double getSaldoSaatIni(Guest guest) {
         try (Connection connection = ConnectionUtil.getDataSource().getConnection()){
             String sql = "SELECT * FROM Wallet WHERE UserName = ?";
@@ -77,6 +83,8 @@ public abstract class DatabaseWallet implements Wallet {
         return 0;
     }
 
+
+    // Check Saldo
     public double checkSaldo(Guest guest) {
         try (Connection connection = ConnectionUtil.getDataSource().getConnection()){
             String sql = "SELECT * FROM Wallet WHERE UserName = ?";
@@ -98,6 +106,8 @@ public abstract class DatabaseWallet implements Wallet {
         return 0;
     }
 
+
+    // Update Saldo (Menambah Saldo)
     public void UpdateSaldo(Guest guest, double saldoTambah){
         try (Connection connection = ConnectionUtil.getDataSource().getConnection()){
 
@@ -114,17 +124,18 @@ public abstract class DatabaseWallet implements Wallet {
         }
     }
 
-    public void UpdateSaldoPayment(Guest guest, Room room){
+
+    // Method Saldo Setelah Pembayaran
+    public void UpdateSaldoPayment(Guest guest,double price){
         try (Connection connection = ConnectionUtil.getDataSource().getConnection()){
 
             String sql = "UPDATE Wallet set Balance = ? WHERE UserName = ?";
             try (PreparedStatement statement = connection.prepareStatement(sql)){
                 double saldoSaatIni = getSaldoSaatIni(guest);
-                double roomPrice = room.getPrice(room);
-                double saldoBaru = saldoSaatIni - roomPrice;
+                double saldoBaru = saldoSaatIni - price;
                 statement.setDouble(1, saldoBaru);
                 statement.setString(2, guest.getUserName());
-                if (saldoSaatIni > roomPrice){
+                if (guest.getSaldoSaatIni(guest) >= price){
                     statement.executeUpdate();
                 }
                 else {
@@ -135,5 +146,26 @@ public abstract class DatabaseWallet implements Wallet {
             throw new RuntimeException(e);
         }
     }
+
+
+    // Method Saldo jika terjadi cancel (Pengembalian balance)
+    public void Return(Guest guest,double price){
+        try (Connection connection = ConnectionUtil.getDataSource().getConnection()){
+
+            String sql = "UPDATE Wallet set Balance = ? WHERE UserName = ?";
+            try (PreparedStatement statement = connection.prepareStatement(sql)){
+                double saldoSaatIni = getSaldoSaatIni(guest);
+                double saldoBaru = saldoSaatIni + price;
+                statement.setDouble(1, saldoBaru);
+                statement.setString(2, guest.getUserName());
+
+                statement.executeUpdate();
+
+            }
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
 
 }
