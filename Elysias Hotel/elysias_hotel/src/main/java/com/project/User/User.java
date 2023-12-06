@@ -18,6 +18,7 @@ public class User extends DatabaseUser{
         this.Password = Password;
     }
 
+
     // Login
     @Override
     public boolean Login(User user){
@@ -30,11 +31,13 @@ public class User extends DatabaseUser{
          return super.SignUp(user);
     }
 
+
     // Delete Akun
     @Override
     public void DelAccount(User user) {
         super.DelAccount(user);
     }
+
 
     // Menambah Profile Buat jadi interaktif layaknya login
     @Override
@@ -70,30 +73,36 @@ public class User extends DatabaseUser{
         super.DisplayProfile(user);
     }
 
+
     // Mendapatkan nama dari database
     public void getNama(Guest guest){
         super.getNama(guest);
     }
+
 
     // Mendapatkan noTel dari database
     public void getNoTel(Guest guest){
         super.getNoTel(guest);
     }
 
+
     // Mendapatkan noTel dari database untuk dimasukkan ke method
     public String getNoTelGuest(Guest guest){
         return super.getNoTelGuest(guest);
     }
+
 
     // Mendapatkan Alamat dari database
     public void getAlamat(Guest guest){
         super.getAlamat(guest);
     }
 
+
     // Mendapatkan Kota dari database
     public void getKota(Guest guest){
         super.getKota(guest);
     }
+
 
     // Update Profile sama buat java fx interaktif layaknya login
     public void UpdateProfile(User user){
@@ -122,10 +131,16 @@ public class User extends DatabaseUser{
         super.UpdateProfile(user);
     }
 
-    // Mengecek username ada atau tidak
-    public void isExsist(User user){
-        super.isExist(user);
+    // Menampilkan History
+    public void displayReservation(Guest guest){
+        super.displayReservation(guest);
     }
+
+
+    // Mengecek username ada atau tidak
+//    public void isExsist(User user){
+//        super.isExist(user);
+//    }
 
     // getter
     public String getUserName() {
