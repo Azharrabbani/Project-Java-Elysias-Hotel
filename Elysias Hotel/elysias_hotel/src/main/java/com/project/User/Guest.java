@@ -8,7 +8,6 @@ public class Guest {
 
     private User user;
     private final Payment payment;
-    private DatabaseUser databaseUser;
 
     public Guest(User user){
         this.user = user;
@@ -27,9 +26,9 @@ public class Guest {
         user.DelAccount(user);
     }
 
-    public void isExsist(User user){
-        user.isExist(user);
-    }
+//    public void isExsist(User user){
+//        user.isExist(user);
+//    }
 
     public void AddProfile(User user){
         user.AddProfile(user);
@@ -76,7 +75,7 @@ public class Guest {
         return payment.addWallet(guest);
     }
 
-    public void checkcSaldo(Guest guest){
+    public void checkSaldo(Guest guest){
         payment.checkSaldo(guest);
     }
 
@@ -88,14 +87,34 @@ public class Guest {
         return payment.getSaldo(guest);
     }
 
+    public double getSaldoSaatIni(Guest guest){
+        return payment.getSaldoSaatIni(guest);
+    }
+
+
 
     public  void UpdateSaldo(Guest guest, double saldoJumlah){
         payment.UpdateSaldo(guest, saldoJumlah);
     }
 
-    public boolean UpdateSaldoPayment(Guest guest, Room room){
-        payment.UpdateSaldoPayment(guest, room);
-        return false;
+    public void updateSaldoPayment(Guest guest, double price){
+        payment.updateSaldoPayment(guest, price);
+    }
+
+    public void Return(Guest guest,double price){
+        payment.Return(guest, price);
+    }
+    // Room
+    public boolean bookRoom(Guest guest, Room room){
+        return room.bookRoom(guest, room);
+    }
+
+    public void cancelBooking(Guest guest, Room room){
+        room.cancelBooking(guest, room);
+    }
+
+    public void DisplayReservation(Guest guest){
+        user.displayReservation(guest);
     }
 
 
