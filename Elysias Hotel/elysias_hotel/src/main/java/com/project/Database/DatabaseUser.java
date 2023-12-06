@@ -86,6 +86,7 @@ public abstract class DatabaseUser implements UserService {
         }
     }
 
+
     // Method Menampilkan Profile
     public void DisplayProfile(User user){
         try (Connection connection = ConnectionUtil.getDataSource().getConnection()){
@@ -197,29 +198,29 @@ public abstract class DatabaseUser implements UserService {
 
 
     // Method mengecek apakah username ada di database
-    public boolean isExist(User user){
-        try (Connection connection = ConnectionUtil.getDataSource().getConnection()) {
-            String sql = "SELECT * FROM Guest WHERE UserName = ?";
-            try (PreparedStatement statement = connection.prepareStatement(sql)){
-                statement.setString(1, user.getUserName());
-                try (ResultSet resultSet = statement.executeQuery()){
-                    if (resultSet.next()){
-                        System.out.println("Akun ditemukan");
-                        return true;
-                    }
-                    else {
-                        System.out.println("Akun tidak di temukan");
-                        return false;
-                    }
-                }
-            }
-        } catch (SQLException e){
-            throw new RuntimeException(e);
-        }
+//    public boolean isExist(User user){
+//        try (Connection connection = ConnectionUtil.getDataSource().getConnection()) {
+//            String sql = "SELECT * FROM Guest WHERE UserName = ?";
+//            try (PreparedStatement statement = connection.prepareStatement(sql)){
+//                statement.setString(1, user.getUserName());
+//                try (ResultSet resultSet = statement.executeQuery()){
+//                    if (resultSet.next()){
+//                        System.out.println("Akun ditemukan");
+//                        return true;
+//                    }
+//                    else {
+//                        System.out.println("Akun tidak di temukan");
+//                        return false;
+//                    }
+//                }
+//            }
+//        } catch (SQLException e){
+//            throw new RuntimeException(e);
+//        }
+//
+//    }
 
-    }
-
-    // Method mendapatkan NoTek untuk digunakan di method lain (bukan untuk ditampilkan)
+    // Method mendapatkan NoTel untuk digunakan di method lain (bukan untuk ditampilkan)
     public String getNoTelGuest(Guest guest) { // Untuk ditampilkan
         try (Connection connection = ConnectionUtil.getDataSource().getConnection()){
             String sql = "SELECT * FROM Guest WHERE UserName = ?";
@@ -237,4 +238,35 @@ public abstract class DatabaseUser implements UserService {
             throw new RuntimeException("UserName Not Found !!!");
         }
     }
+
+    // Method Menampilkan History
+    public void displayReservation(Guest guest){
+        try (Connection connection = ConnectionUtil.getDataSource().getConnection()){
+            String sql = """
+                    SELECT Room.Room_Number, Room.Room_Name, Type.RoomType, Reservation.CheckIn, Reservation.CheckOut, Reservation.Night, Reservation.Total, Reservation.Status from Reservation
+                    INNER JOIN Room ON (Reservation.Room_Number = Room.Room_Number)
+                    INNER JOIN Type ON (Room.TypeId = Type.TypeId)
+                    WHERE Reservation.UserName = ?
+                    """;
+            try (PreparedStatement statement = connection.prepareStatement(sql)){
+                statement.setString(1, guest.getUserName());
+                try (ResultSet resultSet = statement.executeQuery()){
+                    while (resultSet.next()){
+                        System.out.println("Room Number \t: " + resultSet.getInt("Room_Number"));
+                        System.out.println("Room Name \t\t: " + resultSet.getString("Room_Name"));
+                        System.out.println("Type \t\t\t: " + resultSet.getString("RoomType"));
+                        System.out.println("CheckIn \t\t: " + resultSet.getDate("CheckIn"));
+                        System.out.println("CheckOut \t\t: " + resultSet.getDate("CheckOut"));
+                        System.out.println("Night \t\t\t: " + resultSet.getInt("Night"));
+                        System.out.println("Total \t\t\t: " + resultSet.getDouble("Total"));
+                        System.out.println("Status \t\t\t: " + resultSet.getString("Status") + "\n");
+                    }
+                }
+            }
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+
 }
